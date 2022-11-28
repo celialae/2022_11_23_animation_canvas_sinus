@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title> animation im canvas </title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      background: darkorchid;
+      display: block;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <canvas id="cnv"></canvas>
+
+  <script>
+
+    function optimizeCanvas(cnv) {
+      // Get the DPR and size of the canvas
+      const dpr = window.devicePixelRatio
+      const rect = cnv.getBoundingClientRect()
+
+      // Set the "actual" size of the canvas
+      cnv.width = rect.width * dpr;
+      cnv.height = rect.height * dpr;
+
+      // Scale the context to ensure correct drawing operations
+      cnv.getContext('2d').scale(dpr, dpr)
+
+      // Set the "drawn" size of the canvas
+      cnv.style.width = `${rect.width}px`;
+      cnv.style.height = `${rect.height}px`;
+    }
+
+    console.clear()
+
+    const cnv = document.querySelector("#cnv")
+    cnv.width = window.innerWidth
+    cnv.height = window.innerHeight
+    const ctx = cnv.getContext('2d')
+    optimizeCanvas(cnv)
+
+
+  
+    const r = 100
+    let a = 0
+  
+    function draw() {
+
+      ctx.clearRect(window.innerWidth/2-50, window.innerHeight/2-50, 100, 100)
+
+      ctx.save()
+      ctx.translate(window.innerWidth/2, window.innerHeight/2)
+      ctx.fillStyle = 'violet'
+      ctx.beginPath()
+      const x = Math.sin(a) *r
+      const y = Math.sin(a*100) * r
+      a += 0.01
+      ctx.arc(x*2, y*2, 1.5, 0, Math.PI * 2)
+      ctx.fill()
+      // ctx.restore()
+
+      ctx.fillStyle = 'palegreen'
+      ctx.beginPath()
+      ctx.arc(x, y, 1, 0, Math.PI *2 )
+      ctx.fill()
+
+      ctx.fillStyle = 'black'
+      ctx.beginPath()
+      ctx.arc(x*3, y, 0.8, 0, Math.PI *2 )
+      ctx.fill()
+
+      ctx.fillStyle = 'black'
+      ctx.beginPath()
+      ctx.arc(x, y*3, 0.8, 0, Math.PI *2 )
+      ctx.fill()
+
+
+      ctx.fillStyle = 'palegreen'
+      ctx.beginPath()
+      ctx.arc(x*4, y*4, 3, 0, Math.PI *2 )
+      ctx.fill()
+      
+      ctx.fillStyle = 'violet'
+      ctx.beginPath()
+      ctx.arc(x*7, y*6, 2, 0, Math.PI *2 )
+      ctx.fill()
+      
+      ctx.restore()
+
+
+
+      window.requestAnimationFrame(draw)
+    }
+
+    draw()
+
+
+  </script>
+
+
+</body>
+
+</html>
